@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main() {
+    int* ptr;
+    int stringSize;
+    char storedStr[100];  // Assuming the user will not enter more than 99 characters.
+
+    printf("Enter positive integers to be stored in array: ");
+    scanf("%99s", storedStr);  // No '&' needed and limit the input to avoid buffer overflow.
+
+    stringSize = strlen(storedStr);
+
+    // Dynamically allocate memory using malloc()
+    ptr = (int*)malloc(stringSize * sizeof(int));
+    int* revString = (int*)malloc(stringSize * sizeof(int));  // Allocate memory for reverse array.
+
+    // Check if the memory has been successfully allocated by malloc or not
+    if (ptr == NULL || revString == NULL) {
+        printf("Memory not allocated.\n");
+        exit(0);
+    } else {
+        // Memory has been successfully allocated
+        printf("Memory successfully allocated using malloc.\n");
+
+        // Convert each character to an integer and fill in the ptr array
+        for (int i = 0; i < stringSize; ++i) {
+            ptr[i] = storedStr[i] - '0';  // Convert char to int and store in array.
+        }
+
+        // Fill in the revString array with numbers in reverse order
+        for (int i = 0; i < stringSize; ++i) {
+            revString[i] = ptr[stringSize - i - 1];  // Reverse the elements.
+        }
+
+        // Print the elements of the array
+        printf("The elements of the array are: ");
+        for (int i = 0; i < stringSize; ++i) {
+            printf("%d, ", ptr[i]);
+        }
+        printf("\nThe elements of the array in reverse are: ");
+        for (int i = 0; i < stringSize; ++i) {
+            printf("%d, ", revString[i]);
+        }
+        printf("\n");
+    }
+
+    // Free the dynamically allocated memory
+    free(ptr);
+    free(revString);
+
+    return 0;
+}
+
